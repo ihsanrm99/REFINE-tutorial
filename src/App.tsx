@@ -1,6 +1,6 @@
 import { Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import { ShowProduct } from "./pages/products/show";
+import { EditProduct } from "./pages/products/edit";
 import { dataProvider } from "./providers/data-provider";
 
 function App() {
@@ -12,7 +12,8 @@ function App() {
           projectId: "pktMga-x9szor-uqQ29U",
         }}
       >
-        <ShowProduct />
+        {/* <ShowProduct /> */}
+        <EditProduct />
       </Refine>
       <DevtoolsPanel />
     </DevtoolsProvider>
