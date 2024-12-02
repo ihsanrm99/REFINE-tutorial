@@ -7,8 +7,6 @@ import type {
   DeleteOneResponse,
   GetListParams,
   GetListResponse,
-  UpdateParams,
-  UpdateResponse,
 } from "@refinedev/core";
 
 const API_URL = "https://api.fake-rest.refine.dev";
@@ -33,10 +31,20 @@ export const dataProvider: DataProvider = {
   ): Promise<CreateResponse<TData>> {
     throw new Error("Function not implemented.");
   },
-  update: function <TData extends BaseRecord = BaseRecord, TVariables = {}>(
-    params: UpdateParams<TVariables>,
-  ): Promise<UpdateResponse<TData>> {
-    throw new Error("Function not implemented.");
+  update: async ({ resource, id, variables }) => {
+    const response = await fetch(`${API_URL}/${resource}/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(variables),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status < 200 || response.status > 299) throw response;
+
+    const data = await response.json();
+
+    return { data };
   },
   deleteOne: function <TData extends BaseRecord = BaseRecord, TVariables = {}>(
     params: DeleteOneParams<TVariables>,
