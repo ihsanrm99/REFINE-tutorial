@@ -7,8 +7,6 @@ import type {
   DeleteOneResponse,
   GetListParams,
   GetListResponse,
-  GetOneParams,
-  GetOneResponse,
   UpdateParams,
   UpdateResponse,
 } from "@refinedev/core";
@@ -21,10 +19,14 @@ export const dataProvider: DataProvider = {
   ): Promise<GetListResponse<TData>> {
     throw new Error("Function not implemented.");
   },
-  getOne: function <TData extends BaseRecord = BaseRecord>(
-    params: GetOneParams,
-  ): Promise<GetOneResponse<TData>> {
-    throw new Error("Function not implemented.");
+  getOne: async ({ resource, id, meta }: any) => {
+    const response = await fetch(`${API_URL}/${resource}/${id}`);
+
+    if (response.status < 200 || response.status > 299) throw response;
+
+    const data = await response.json();
+
+    return { data };
   },
   create: function <TData extends BaseRecord = BaseRecord, TVariables = {}>(
     params: CreateParams<TVariables>,
