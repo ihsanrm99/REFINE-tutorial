@@ -6,6 +6,8 @@ export const ListProducts = () => {
     current,
     setCurrent,
     pageCount,
+    sorters,
+    setSorters,
   } = useTable({
     resource: "products",
     pagination: { current: 1, pageSize: 10 },
@@ -37,17 +39,49 @@ export const ListProducts = () => {
     setCurrent(page);
   };
 
+  const getSorter = (field: string) => {
+    const sorter = sorters?.find((sorter) => sorter.field === field);
+
+    if (sorter) {
+      return sorter.order;
+    }
+  };
+
+  const onSort = (field: string) => {
+    const sorter = getSorter(field);
+    setSorters(
+      sorter === "desc"
+        ? []
+        : [
+            {
+              field,
+              order: sorter === "asc" ? "desc" : "asc",
+            },
+          ],
+    );
+  };
+
+  const indicator = { asc: "⬆️", desc: "⬇️" };
+
   return (
     <div>
       <h1>Products</h1>
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
+            <th onClick={() => onSort("id")}>
+              ID {indicator[getSorter("id")]}
+            </th>
+            <th onClick={() => onSort("name")}>
+              Name {indicator[getSorter("name")]}
+            </th>
             <th>Category</th>
-            <th>Material</th>
-            <th>Price</th>
+            <th onClick={() => onSort("material")}>
+              Material {indicator[getSorter("material")]}
+            </th>
+            <th onClick={() => onSort("price")}>
+              Price {indicator[getSorter("price")]}
+            </th>
           </tr>
         </thead>
         <tbody>
