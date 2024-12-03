@@ -1,6 +1,6 @@
 import { Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import { CreateProduct } from "./pages/products/create";
+import { EditProduct } from "./pages/products/edit";
 import { dataProvider } from "./providers/data-provider";
 
 function App() {
@@ -13,9 +13,9 @@ function App() {
         }}
       >
         {/* <ShowProduct /> */}
-        {/* <EditProduct /> */}
+        <EditProduct />
         {/* <ListProducts /> */}
-        <CreateProduct />
+        {/* <CreateProduct /> */}
       </Refine>
       <DevtoolsPanel />
     </DevtoolsProvider>
