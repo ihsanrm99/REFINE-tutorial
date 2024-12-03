@@ -1,10 +1,24 @@
-import { Refine, WelcomePage } from "@refinedev/core";
+import { Refine } from "@refinedev/core";
+import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
+import { ListProducts } from "./pages/products/list";
+import { dataProvider } from "./providers/data-provider";
 
 function App() {
   return (
-    <Refine>
-      <WelcomePage />
-    </Refine>
+    <DevtoolsProvider>
+      <Refine
+        dataProvider={dataProvider}
+        options={{
+          projectId: "pktMga-x9szor-uqQ29U",
+        }}
+      >
+        {/* <ShowProduct /> */}
+        {/* <EditProduct /> */}
+        <ListProducts />
+        {/* <CreateProduct /> */}
+      </Refine>
+      <DevtoolsPanel />
+    </DevtoolsProvider>
   );
 }
 
