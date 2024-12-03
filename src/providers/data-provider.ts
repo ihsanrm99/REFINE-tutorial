@@ -1,7 +1,5 @@
 import type {
   BaseRecord,
-  CreateParams,
-  CreateResponse,
   DataProvider,
   DeleteOneParams,
   DeleteOneResponse,
@@ -54,10 +52,20 @@ export const dataProvider: DataProvider = {
 
     return { data };
   },
-  create: function <TData extends BaseRecord = BaseRecord, TVariables = {}>(
-    params: CreateParams<TVariables>,
-  ): Promise<CreateResponse<TData>> {
-    throw new Error("Function not implemented.");
+  create: async ({ resource, variables }) => {
+    const response = await fetch(`${API_URL}/${resource}`, {
+      method: "POST",
+      body: JSON.stringify(variables),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status < 200 || response.status > 299) throw response;
+
+    const data = await response.json();
+
+    return { data };
   },
   update: async ({ resource, id, variables }) => {
     const response = await fetch(`${API_URL}/${resource}/${id}`, {
