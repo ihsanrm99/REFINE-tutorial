@@ -25,6 +25,15 @@ export const dataProvider: DataProvider = {
       params.append("_order", sorters.map((sorter) => sorter.order).join(","));
     }
 
+    if (filters && filters.length > 0) {
+      filters.forEach((filter) => {
+        if ("field" in filter && filter.operator === "eq") {
+          // Our fake API supports "eq" operator by simply appending the field name and value to the query string.
+          params.append(filter.field, filter.value);
+        }
+      });
+    }
+
     const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
 
     if (response.status < 200 || response.status > 299) throw response;
