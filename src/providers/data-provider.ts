@@ -38,9 +38,11 @@ export const dataProvider: DataProvider = {
 
     const data = await response.json();
 
+    const total = Number(response.headers.get("x-total-count"));
+
     return {
       data,
-      total: 0,
+      total,
     };
   },
   getMany: async ({ resource, ids, meta }) => {
