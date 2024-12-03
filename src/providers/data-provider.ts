@@ -20,6 +20,11 @@ export const dataProvider: DataProvider = {
       }
     }
 
+    if (sorters && sorters.length > 0) {
+      params.append("_sort", sorters.map((sorter) => sorter.field).join(","));
+      params.append("_order", sorters.map((sorter) => sorter.order).join(","));
+    }
+
     const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
 
     if (response.status < 200 || response.status > 299) throw response;
