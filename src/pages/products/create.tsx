@@ -13,7 +13,11 @@ export const CreateProduct = () => {
       new FormData(event.currentTarget).entries(),
     );
     // Calling onFinish to submit with the data we've collected from the form.
-    onFinish(data);
+    onFinish({
+      ...data,
+      price: Number(data.price).toFixed(2),
+      category: { id: Number(data.category) },
+    });
   };
 
   return (
