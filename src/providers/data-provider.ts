@@ -11,7 +11,16 @@ const API_URL = "https://api.fake-rest.refine.dev";
 
 export const dataProvider: DataProvider = {
   getList: async ({ resource, pagination, filters, sorters, meta }) => {
-    const response = await fetch(`${API_URL}/${resource}`);
+    const params = new URLSearchParams();
+
+    if (pagination) {
+      if (pagination) {
+        params.append("_start", (pagination.current - 1) * pagination.pageSize);
+        params.append("_end", pagination.current * pagination.pageSize);
+      }
+    }
+
+    const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
 
     if (response.status < 200 || response.status > 299) throw response;
 

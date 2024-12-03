@@ -3,6 +3,7 @@ import { useList } from "@refinedev/core";
 export const ListProducts = () => {
   const { data, isLoading } = useList({
     resource: "products",
+    pagination: { current: 1, pageSize: 10 },
   });
 
   if (isLoading) {
