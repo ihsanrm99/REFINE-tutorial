@@ -2,7 +2,19 @@ import { useOne, useUpdate } from "@refinedev/core";
 
 export const EditProduct = () => {
   const { data, isLoading } = useOne({ resource: "products", id: 123 });
-  const { mutate, isLoading: isUpdating } = useUpdate();
+  const { mutate, isLoading: isUpdating } = useUpdate({
+    mutationOptions: {
+      retry: 3,
+      onSuccess: (data, variables, context) => {
+        // Let's celebrate!
+        alert("SUCCESS EDIT");
+      },
+      onError: (error, variables, context) => {
+        // An error occurred!
+        alert("FAILED EDIT");
+      },
+    },
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
