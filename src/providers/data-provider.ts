@@ -43,6 +43,21 @@ export const dataProvider: DataProvider = {
       total: 0,
     };
   },
+  getMany: async ({ resource, ids, meta }) => {
+    const params = new URLSearchParams();
+
+    if (ids) {
+      ids.forEach((id: any) => params.append("id", id));
+    }
+
+    const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
+
+    if (response.status < 200 || response.status > 299) throw response;
+
+    const data = await response.json();
+
+    return { data };
+  },
   getOne: async ({ resource, id, meta }: any) => {
     const response = await fetch(`${API_URL}/${resource}/${id}`);
 
