@@ -1,4 +1,4 @@
-import { useTable } from "@refinedev/core";
+import { useMany, useTable } from "@refinedev/core";
 
 export const ListProducts = () => {
   const {
@@ -7,6 +7,11 @@ export const ListProducts = () => {
     resource: "products",
     pagination: { current: 1, pageSize: 10 },
     sorters: { initial: [{ field: "id", order: "asc" }] },
+  });
+
+  const { data: categories } = useMany({
+    resource: "categories",
+    ids: data?.data?.map((product) => product.category?.id) ?? [],
   });
 
   if (isLoading) {
@@ -31,7 +36,13 @@ export const ListProducts = () => {
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.name}</td>
-              <td>{product.category?.id}</td>
+              <td>
+                {
+                  categories?.data?.find(
+                    (category) => category.id == product.category?.id,
+                  )?.title
+                }
+              </td>
               <td>{product.material}</td>
               <td>{product.price}</td>
             </tr>
